@@ -3,6 +3,7 @@
   "configurePresets": [
     {
       "name": "bringup",
+      "displayName": "01 点亮与串口",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/bringup",
       "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
@@ -12,6 +13,7 @@
     },
     {
       "name": "sensors",
+      "displayName": "02 温度振动电压采集",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/sensors",
       "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
@@ -21,6 +23,7 @@
     },
     {
       "name": "wireless",
+      "displayName": "03 无线单向联调",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/wireless",
       "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
@@ -29,7 +32,18 @@
       }
     },
     {
+      "name": "wireless_ack",
+      "displayName": "04 无线确认与重试",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/wireless_ack",
+      "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
+      "cacheVariables": {
+        "PROFILE": "wireless_ack"
+      }
+    },
+    {
       "name": "adaptive",
+      "displayName": "05 能量预算与自适应休眠",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/adaptive",
       "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
@@ -39,6 +53,7 @@
     },
     {
       "name": "fixed",
+      "displayName": "06 固定周期对比",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/fixed",
       "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
@@ -50,22 +65,32 @@
   "buildPresets": [
     {
       "name": "bringup",
+      "displayName": "01 点亮与串口",
       "configurePreset": "bringup"
     },
     {
       "name": "sensors",
+      "displayName": "02 温度振动电压采集",
       "configurePreset": "sensors"
     },
     {
       "name": "wireless",
+      "displayName": "03 无线单向联调",
       "configurePreset": "wireless"
     },
     {
+      "name": "wireless_ack",
+      "displayName": "04 无线确认与重试",
+      "configurePreset": "wireless_ack"
+    },
+    {
       "name": "adaptive",
+      "displayName": "05 能量预算与自适应休眠",
       "configurePreset": "adaptive"
     },
     {
       "name": "fixed",
+      "displayName": "06 固定周期对比",
       "configurePreset": "fixed"
     }
   ]

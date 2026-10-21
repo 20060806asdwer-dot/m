@@ -1,3 +1,6 @@
+/* 【04 传感器接口】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #ifndef SENSORS_H
 #define SENSORS_H
 #include <stdbool.h>

@@ -1,3 +1,6 @@
+/* 【23 芯片内存布局：程序62KiB，启动日志2KiB】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 /* Genuine F103C8: 64 KiB flash, 20 KiB SRAM. Last 2 KiB reserved for boot journal. */
 ENTRY(Reset_Handler)
 MEMORY { FLASH(rx): ORIGIN = 0x08000000, LENGTH = 62K

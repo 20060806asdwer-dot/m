@@ -1,3 +1,6 @@
+/* 【03 主板服务接口】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #ifndef BOARD_H
 #define BOARD_H
 #include "stm32f1xx_hal.h"
@@ -18,4 +21,8 @@ uint32_t board_uptime(void);
 bool board_measure_store(uint16_t *mv,uint16_t *vdda);
 bool board_next_boot(uint32_t *counter);
 void board_led(bool on);
+bool board_i2c_recover(void);
+bool board_radio_read_byte(uint8_t *value);
+void board_radio_flush_rx(void);
+uint32_t board_radio_rx_errors(void);
 #endif

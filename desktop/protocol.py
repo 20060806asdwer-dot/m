@@ -1,3 +1,6 @@
+"""【14 电脑端协议：遥测解码、确认帧和串口分片恢复】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 """Bench protocol V1, 24 bytes; no dependency on serial hardware."""
 from dataclasses import dataclass
 import struct
@@ -7,6 +10,7 @@ BODY = struct.Struct('<2sBBHHIhHHBBH')
 FRAME_SIZE = 24
 assert BODY.size == 22
 
+# A CRC16校验
 def crc16(data):
     """CRC-16/CCITT-FALSE: poly 0x1021, init FFFF, no reflection/xorout."""
     crc = 0xffff
@@ -16,6 +20,7 @@ def crc16(data):
             crc = ((crc << 1) ^ 0x1021) & 0xffff if crc & 0x8000 else (crc << 1) & 0xffff
     return crc
 
+# B 一条遥测记录的数据字段
 @dataclass(frozen=True)
 class Record:
     node: int
@@ -29,11 +34,13 @@ class Record:
     flags: int
     reset_count: int = 0
 
+# C 生成24字节遥测帧
 def encode(r):
     data = BODY.pack(MAGIC, 1, r.node, r.boot, r.seq, r.uptime_s,
                      r.temp_centi, r.store_mv, r.vibration_mg, r.state, r.flags, r.reset_count)
     return data + struct.pack('<H', crc16(data))
 
+# D 校验并解析收到的遥测帧
 def decode(frame):
     if len(frame) != FRAME_SIZE or frame[:2] != MAGIC:
         raise ValueError('帧长度或帧头错误')
@@ -51,6 +58,13 @@ def decode(frame):
         raise ValueError('有效储能电压超出本方案范围')
     return r
 
+# E 为已校验记录生成10字节确认帧
+def ack_for(record):
+    """接收端确认：B5 5B、版本、节点、boot、seq、CRC16，共10字节。"""
+    body=struct.pack('<2sBBHH',b'\xb5\x5b',1,record.node,record.boot,record.seq)
+    return body+struct.pack('<H',crc16(body))
+
+# F 串口流解析：拼分片、找帧头、坏帧后恢复
 class Parser:
     def __init__(self):
         self.buffer = bytearray()
@@ -78,6 +92,7 @@ class Parser:
                 del self.buffer[:FRAME_SIZE]
         return result
 
+# G 旧电压状态策略的Python参考
 def policy(previous, mv, valid=True):
     """Reference for the C energy policy, not a physical power model."""
     if not valid or mv < 3650 or previous not in (0, 1, 2):

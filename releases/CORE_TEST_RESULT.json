@@ -1,8 +1,8 @@
 {
   "status": "PASS",
-  "checks": 4658,
+  "checks": 4688,
   "python_frame_matches_arm_c": true,
-  "scope": "Pure C logic only; no GPIO, RTC, ADC, I2C, RF or flash hardware emulation",
+  "scope": "Core logic and radio driver under fake HAL; no actual GPIO, RTC, ADC, I2C, RF or flash hardware validation",
   "unicorn_version": "2.1.4",
   "frame_hex": "a55a01010700ffff40e201002efb3c0f1b0002070300565c"
 }

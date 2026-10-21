@@ -1,3 +1,6 @@
+"""【16 记录分析：有效数据、序号缺口和实测功耗积分】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 """Summarize receiver CSV or integrate measured power CSV. Never invent readings."""
 import argparse
 import csv
@@ -7,6 +10,7 @@ import math
 from pathlib import Path
 from protocol import Record,encode,decode
 
+# A 分析接收日志；默认拒绝把演示记录当实测
 def telemetry(rows, allow_simulation=False):
     if not rows:
         raise ValueError('CSV没有记录')
@@ -33,6 +37,7 @@ def telemetry(rows, allow_simulation=False):
         receiver_span_s=(max(times)-min(times)).total_seconds(),
         limitation='序号缺口只覆盖已观察会话的内部；无法计算开始前、结尾后或完全未收到会话的丢包。时间为电脑接收时间。')
 
+# B 对非均匀时间的功率点做梯形积分
 def power(rows):
     if len(rows)<2:raise ValueError('功耗积分至少需要两行测量数据')
     samples=[]
@@ -48,6 +53,7 @@ def power(rows):
         average_mw=energy_mj/duration,peak_sample_mw=max(p for t,p in samples),
         limitation='按离散功率点做梯形积分；采样过慢会漏掉射频尖峰。输入必须为仪器实测值并记录测量位置。')
 
+# C 选择分析类型并读取CSV
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('kind',choices=('telemetry','power'));p.add_argument('csv',type=Path)

@@ -1,3 +1,6 @@
+/* 【12 HAL配置：启用哪些芯片外设】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #ifndef STM32F1xx_HAL_CONF_H
 #define STM32F1xx_HAL_CONF_H
 #define HAL_MODULE_ENABLED

@@ -1,3 +1,6 @@
+/* 【11 标准库支持：有界内存与文件接口占位】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 /* No filesystem. A bounded heap supports newlib's integer formatting internals. */
 #include <errno.h>
 #include <stddef.h>

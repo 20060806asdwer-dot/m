@@ -3,6 +3,8 @@
 <!-- railnode-quick-links -->
 ## 快速入口
 
+- [中文代码阅读地图：每个文件做什么、从哪开始](docs/代码阅读地图.md)
+- [无硬件验收与实机待办](docs/无硬件验收与实机待办.md)
 - [下载完整工程 ZIP](https://github.com/20060806asdwer-dot/m/archive/refs/heads/main.zip)
 - [查看工程源码](https://github.com/20060806asdwer-dot/m/tree/main/firmware/Core)
 - [下载已编译固件](https://github.com/20060806asdwer-dot/m/tree/main/releases)
@@ -15,7 +17,9 @@
 
 本工程已包含应用代码、ST 官方 HAL、ARM 启动文件、链接脚本、构建与烧录脚本、VS Code 任务、上位机、CSV 分析工具与 DeepSeek 只读助手。**直接打开现有工程，不需要先生成或拼接代码。** 它是手工维护的 HAL/CMake 工程，没有 `.ioc`，不要用 CubeMX 直接覆盖。CubeMX 可在另一个目录学习引脚配置。
 
-软件已编译，纯算法已测试；传感器时序、真实无线、STOP 唤醒、供电与功耗尚待实物验证。本代码不包含尚未测定的磁芯绕组、电源原理图或量产 PCB。
+软件已编译，核心算法、无线假HAL及电脑假串口流程已测试；传感器时序、真实无线、STOP 唤醒、供电与功耗尚待实物验证。本代码不包含尚未测定的磁芯绕组、电源原理图或量产 PCB。
+
+先读[代码阅读地图](docs/代码阅读地图.md)：主流程→参数→采集→计算→能量状态/账本→数据帧→无线→电脑上位机。自编源文件顶部与长流程内部已有中文标题。
 
 ## 1 买什么，先拿哪些东西
 
@@ -66,7 +70,7 @@ PA0只接已限压的低压 VSTORE 分压，当前量程上限5.5V；软件阈�
 python tools/project.py setup
 python tools/project.py build bringup
 python desktop/selftest.py
-python -m unittest discover -s tests -p "test_desktop.py"
+python -m unittest discover -s tests -p "test_*.py"
 python desktop/monitor.py --simulate
 ```
 
@@ -74,15 +78,16 @@ python desktop/monitor.py --simulate
 
 通过标准：构建产生 `build/bringup/railnode.hex`，Python显示PASS，界面注明演示数据。模拟数据不计入比赛测量。
 
-## 4 按这五份固件推进
+## 4 按这六个配置推进
 
 | 顺序/名称 | 实际行为 | 如何验收 |
 |---|---|---|
 | ① bringup | 只检查LED与日志，约每秒打印HELLO递增计数 | 连续看到30行、PC13闪烁 |
 | ② sensors | 约每2秒读取温度、振动、储能电压；不发射 | 温度随触碰变化；振动随晃动变化；拔线后有效标志变0 |
 | ③ wireless | 外部供电联调，约15秒采集发送；故意关闭能量门控 | 两只E22配对后，上位机收到真实24字节帧 |
-| ④ adaptive | 根据储能电压调整周期；STOP休眠；关闭日志；看门狗 | 连续供电/唤醒测试，再测不同电压下周期与整机功耗 |
-| ⑤ fixed | 与④相同保护与休眠，正常运行固定15秒 | 与④在相同取能输入及环境下对比 |
+| ④ wireless_ack | 外供电确认模式，等待电脑ACK，超时最多重试1次 | 上位机加--ack，补接电脑端TX；断开接收端后有限失败并休眠 |
+| ⑤ adaptive | 电压滞回+能量预算，周期15/60至300秒；STOP、关闭日志、看门狗 | 先校准电容/耗能，再测周期与整机功耗 |
+| ⑥ fixed | 保留电压保护与休眠，运行时固定15秒，不执行预算自适应 | 与⑤在相同取能输入及环境下对比 |
 
 每一步只替换命令最后的配置名：
 
@@ -111,15 +116,17 @@ python tools/project.py flash bringup
 
 两只E22先使用厂家匹配的配置工具设为：9600、8N1、透明传输、相同信道/网络ID/空速/密钥，关闭附加RSSI、固定地址头及中继等额外帧功能。先选相同且在实验条件允许的参数，记录实际配置；程序不盲写厂家配置寄存器。仅用产品页对应手册，不混用E220、E22-M系列或其他固件的模式表。
 
-本驱动按 E22-400T22D 的 M1/M0=00正常、11休眠编写；到货核对手册版本。每次唤醒等AUX高稳定至少2ms，发送24字节后观察忙信号再等空闲。`aux_done=1`只表示本地模块完成AUX忙流程，不能据此声称远端收到或数据已可靠送达。超时会返回失败并尝试休眠。
+普通wireless、fixed、adaptive不等远端确认；需要确认时选择wireless_ack并在电脑加--ack。接收端必须补接USB-TTL TX→E22 RXD。确认帧匹配节点/启动号/序号/CRC，超时最多重试一次。测试配置暂用3秒ACK超时；空中时序及额外耗电要实测。
+
+本驱动按 E22-400T22D 的 M1/M0=00正常、11休眠编写；到货核对手册版本。每次唤醒等AUX高稳定至少2ms，发送24字节后观察忙信号再等空闲。普通配置的`tx_done=1`只表示本地模块完成AUX忙流程；确认配置的`tx_done=1`表示收到了匹配ACK。普通配置的成功，不能据此声称远端收到。RADIO日志还输出结果码、尝试次数和UART接收错误计数；超时会返回失败并尝试休眠。
 
 ```powershell
 python -m pip install -r desktop/requirements.txt
 python -m serial.tools.list_ports
-python desktop/monitor.py --port COM6 --out-dir logs
+python desktop/monitor.py --port COM6 --timeout 45 --out-dir logs
 ```
 
-COM6为**接收端E22**的USB-TTL口，不是采集板的文本日志口。界面显示温度、储能、振动、状态、超时和包统计；真实与演示CSV分别标记LIVE/SIMULATED，串口坏了不会改用模拟值。
+COM6为**接收端E22**的USB-TTL口，不是采集板的文本日志口。确认配置使用 `python desktop/monitor.py --port COM6 --ack --timeout 45 --out-dir logs`。adaptive周期可能到300秒，用默认--timeout 900；45秒仅适合固定15秒联调。界面显示温度、储能、振动、状态、超时和包统计；真实与演示CSV分别标记LIVE/SIMULATED，串口坏了不会改用模拟值。
 
 24字节V1协议在 `desktop/protocol.py` 与 `firmware/Core/Inc/packet.h` 一致：A55A帧头、版本、节点、boot、seq、uptime、温度、储能、振动、状态、有效/告警位、reset_count、CRC16。上位机能在杂音、分片与坏帧后重新同步。
 
@@ -133,7 +140,7 @@ COM6为**接收端E22**的USB-TTL口，不是采集板的文本日志口。界�
 | 低能量1 | 恢复后低于3.95V；正常降到低于3.85V也进入 | 温度+电压，约60秒一包，不采振动 |
 | 正常2 | 升到≥3.95V；维持到低于3.85V | 温度+振动+电压，约15秒一包 |
 
-fixed版也保留3.65/3.80V保护，恢复运行后固定15秒并采振动，比较的是调度差异。阈值是初始工程参数，要按真实稳压压差与掉压修改。采集后、发射前再次检查储能。保护只是减少负载，不能替代硬件欠压锁定和充电保护。
+fixed版也保留3.65/3.80V保护，恢复运行后固定15秒并采振动，比较的是调度差异。阈值是初始工程参数，要按真实稳压压差与掉压修改。adaptive还执行energy_budget：由电容容量和电压计算保护阈值以上的可用能量，预留安全余量后决定能否采集和发送；由前后能量变化与估算消耗计算输入功率，周期可延长到300秒。app_config.h里1F电容、5/10/150mJ任务消耗等是待实测初值，不是本组结果，详见[验收与校准说明](docs/无硬件验收与实机待办.md)。采集后、发射前再次检查储能。保护只是减少负载，不能替代硬件欠压锁定和充电保护。
 
 采样周期从本轮起点计算，RTC使用未校准40kHz LSI，实际时间会有偏差。使用秒表测10分钟与日志uptime之比，按 `新RTC_LSI_HZ = 原值 × 读数秒数 / 实际秒数` 估算修正，改后重新下载；更高精度再做实际LSE硬件适配。
 
@@ -184,3 +191,12 @@ python desktop/deepseek_review.py --question "检查低电压滞回与安全恢�
 - [DeepSeek官方接口文档](https://api-docs.deepseek.com/guides/search_fetch)：接口与模型名，实测调用尚未进行。
 
 结构演示：[离线3D模型](docs/3D动态结构模型.html)、[OpenSCAD草模](docs/结构草模.scad)。下载HTML后用浏览器打开；为布局概念，不是可生产尺寸。
+
+无板子时可以执行完整软件验收（需安装tests/requirements.txt）：
+
+```powershell
+python tools/check.py --build
+python tools/release.py
+```
+
+第一条组合依赖校验、协议/电脑假串口/ARM假HAL测试和六配置编译；第二条更新预编译固件与源码校验记录。两条均不连接硬件、不调用DeepSeek。实机项目见[无硬件验收与实机待办](docs/无硬件验收与实机待办.md)。

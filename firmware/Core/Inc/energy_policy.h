@@ -1,3 +1,6 @@
+/* 【06 能量状态与动作接口】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #ifndef ENERGY_POLICY_H
 #define ENERGY_POLICY_H
 #include <stdbool.h>

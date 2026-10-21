@@ -1,3 +1,6 @@
+"""【13 工程工具：找工具链、编译、烧录与F5设置】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 """Build and optionally flash F103 firmware. Only `flash` accesses hardware."""
 from pathlib import Path
 import argparse
@@ -9,8 +12,9 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILES = ('bringup', 'sensors', 'wireless', 'adaptive', 'fixed')
+PROFILES = ('bringup', 'sensors', 'wireless', 'wireless_ack', 'adaptive', 'fixed')
 
+# A 查找本机ST工具
 def find_tool(exe, bundle):
     override = os.environ.get('RAILNODE_' + bundle.upper().replace('-', '_'))
     if override:
@@ -31,6 +35,7 @@ def find_tool(exe, bundle):
         return tuple(int(x) for x in re.findall(r'\d+', str(p.relative_to(base))))
     return str(max(files, key=version_key))
 
+# B 只为本次构建准备PATH
 def environment():
     gcc = find_tool('arm-none-eabi-gcc.exe', 'gnu-tools-for-stm32')
     cmake = find_tool('cmake.exe', 'cmake')
@@ -39,10 +44,12 @@ def environment():
     env['PATH'] = os.pathsep.join([str(Path(p).parent) for p in (gcc, cmake, ninja)] + [env.get('PATH', '')])
     return cmake, ninja, env
 
+# C 执行工具命令并检查退出状态
 def run(args, env=None):
     print('>', subprocess.list2cmdline([str(x) for x in args]), flush=True)
     subprocess.run([str(x) for x in args], cwd=ROOT, env=env, check=True)
 
+# D 生成与编译指定固件
 def build(profile):
     cmake, ninja, env = environment()
     dest = ROOT / 'build' / profile
@@ -52,6 +59,7 @@ def build(profile):
     run(configure, env)
     run([cmake, '--build', dest, '--parallel'], env)
 
+# E 生成当前电脑的F5配置
 def setup():
     cmake, ninja, env = environment()
     print('工具检查通过:', cmake, ninja, sep='\n')
@@ -71,6 +79,7 @@ def setup():
     path.write_text(json.dumps(dict(version='0.2.0', configurations=configs), indent=2), encoding='utf-8')
     print('已生成当前电脑的 F5 调试配置。先 Build bringup，再连接 ST-Link。')
 
+# F 命令行入口：setup/build/flash
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('setup', 'build', 'flash'))

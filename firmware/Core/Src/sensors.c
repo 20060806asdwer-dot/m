@@ -1,8 +1,12 @@
+/* 【04 传感器驱动：温度单总线与加速度I2C】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #include "sensors.h"
 #include "board.h"
 #include "app_config.h"
 #include "features.h"
 
+/* A DS18B20底层：复位、读位、写位和字节传输 */
 static void line(bool high){HAL_GPIO_WritePin(TEMP_GPIO,TEMP_PIN,high?GPIO_PIN_SET:GPIO_PIN_RESET);}
 static bool level(void){return HAL_GPIO_ReadPin(TEMP_GPIO,TEMP_PIN)==GPIO_PIN_SET;}
 static bool ow_reset(void){
@@ -20,6 +24,7 @@ static bool ow_read_bit(void){
 }
 static void ow_write(uint8_t v){for(unsigned b=0;b<8;b++){ow_write_bit(v&1u);v>>=1;}}
 static uint8_t ow_read(void){uint8_t v=0;for(unsigned b=0;b<8;b++)if(ow_read_bit())v|=(uint8_t)(1u<<b);return v;}
+/* B 温度采集：配置10位、等待转换、校验返回值 */
 bool temperature_read(int16_t *centi){
     /* Single sensor, external 3.3V supply; parasite power is unsupported. */
     if(!ow_reset())return false;
@@ -38,11 +43,15 @@ bool temperature_read(int16_t *centi){
     if((scratch[4]&0x60u)!=0x20u)return false;
     return ds18b20_decode(scratch,centi);
 }
+/* C ADXL345底层：读取和写入寄存器 */
 static bool reg_read(uint8_t reg,uint8_t *data,uint16_t n){return HAL_I2C_Mem_Read(&hi2c1,ADXL_ADDRESS,reg,I2C_MEMADD_SIZE_8BIT,data,n,30)==HAL_OK;}
 static bool reg_write(uint8_t reg,uint8_t value){return HAL_I2C_Mem_Write(&hi2c1,ADXL_ADDRESS,reg,I2C_MEMADD_SIZE_8BIT,&value,1,30)==HAL_OK;}
+/* D 振动采集：读ID、故障恢复、收集64点、返回RMS并待机 */
 bool vibration_read(uint16_t *rms_mg){
     uint8_t id;bool ok=false;
-    if(!reg_read(0,&id,1)||id!=0xe5)return false;
+    if(!reg_read(0,&id,1)||id!=0xe5){
+        if(!board_i2c_recover() || !reg_read(0,&id,1) || id!=0xe5)return false;
+    }
     if(!reg_write(0x2d,0)||!reg_write(0x31,0x08)||!reg_write(0x2c,0x0a)||!reg_write(0x2d,0x08))goto done;
     vibration_window_t window;vibration_reset(&window);
     uint32_t start=HAL_GetTick();

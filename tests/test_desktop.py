@@ -1,3 +1,6 @@
+"""【20 电脑端测试：序号回卷、日志来源和功耗积分】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 from pathlib import Path
 import sys
 import unittest

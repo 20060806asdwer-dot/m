@@ -1,3 +1,6 @@
+"""【15 电脑上位机：接收、可选确认、显示、记录】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 """Local monitor: explicit simulation OR physical serial, never silently substitutes data."""
 import argparse
 import csv
@@ -7,29 +10,36 @@ from pathlib import Path
 import time
 import tkinter as tk
 from tkinter import ttk, messagebox
-from protocol import Parser, Record, encode
+from protocol import Parser, Record, encode, ack_for
 
 def main():
+    # A 选择真实串口或明确的演示模式
     ap = argparse.ArgumentParser(description=__doc__)
     source = ap.add_mutually_exclusive_group(required=True)
     source.add_argument('--simulate', action='store_true', help='明确使用演示数据，不连接硬件')
     source.add_argument('--port', help='例如COM5，实际LoRa接收端串口')
     ap.add_argument('--baud', type=int, default=9600)
+    ap.add_argument('--ack',action='store_true',help='为wireless_ack固件回传确认；需要接收端USB-TTL TX接E22 RXD')
+    ap.add_argument('--timeout',type=float,default=900,help='通信超时秒数；默认900覆盖自适应最长300秒周期，固定15秒可设45')
     ap.add_argument('--out-dir', type=Path, default=Path(__file__).resolve().parent / 'records')
     args = ap.parse_args()
+    if not math.isfinite(args.timeout) or args.timeout<=0:ap.error('--timeout必须是正的有限秒数')
+    if args.ack and args.simulate:ap.error('--ack需要真实串口，不能与演示模式一起使用')
     port = None
     if args.port:
         try:
             import serial
-            port = serial.Serial(args.port, args.baud, timeout=0)
+            port = serial.Serial(args.port, args.baud, timeout=0,write_timeout=.2)
         except (ImportError, OSError, ValueError) as exc:
             ap.exit(2, f'串口无法打开：{exc}\n需要硬件模式时先安装pyserial；不会改用模拟数据。\n')
 
+    # B 创建带来源标识的CSV记录
     args.out_dir.mkdir(parents=True, exist_ok=True)
     dest = args.out_dir / f'{"SIMULATED" if args.simulate else "LIVE"}_{datetime.now():%Y%m%d_%H%M%S_%f}.csv'
     output = dest.open('x', newline='', encoding='utf-8-sig')
     writer = csv.writer(output)
     writer.writerow(['received_at', 'source', *Record.__dataclass_fields__.keys()])
+    # C 创建界面
     root = tk.Tk()
     root.title('磁场取电监测 | ' + ('演示数据 非实测' if args.simulate else f'串口实测 {args.port}'))
     root.geometry('1050x780')
@@ -60,6 +70,7 @@ def main():
     next_sim = [started]
     error = ['']
 
+    # D 绘制最近接收记录的三条曲线
     def render():
         chart.delete('all')
         width, height = max(chart.winfo_width(), 600), max(chart.winfo_height(), 300)
@@ -92,6 +103,7 @@ def main():
                 chart.create_line(*points, fill=color, width=2)
         chart.create_text(width - 18, height - 3, text='横轴：最近180条接收记录；不是均匀时间轴', anchor='se', fill='#667385')
 
+    # E 接收统计与CSV写入
     def accept(r):
         stats['received'] += 1
         key = (r.node, r.boot)
@@ -117,6 +129,7 @@ def main():
         values.set(f'温度 {temp}    储能 {store}    振动 {vib}    {("保护", "低能量", "正常")[r.state]}')
         render()
 
+    # F 超时、阈值和有效位显示
     def update_status():
         if error[0]:
             status.set(error[0])
@@ -126,7 +139,7 @@ def main():
             return
         r = records[-1]
         age = time.monotonic() - last[0]
-        stale = age > (45 if r.state == 2 else 180)
+        stale = age > args.timeout
         try:
             limit = float(threshold.get())
             if not math.isfinite(limit):
@@ -141,6 +154,7 @@ def main():
             note += '；节点告警标志'
         status.set(f'{"通信超时，请检查节点" if stale else note} | 收到{stats["received"]}，序号缺口{stats["gap"]}，重复{stats["duplicate"]}，坏帧{parser.bad_frames}，距上次{age:.1f}s')
 
+    # G 定时读取串口：校验通过后可回传ACK
     def poll():
         now = time.monotonic()
         try:
@@ -153,6 +167,9 @@ def main():
                 next_sim[0] = now + 1
             elif port and not error[0]:
                 for decoded in parser.feed(port.read(4096)):
+                    if args.ack:
+                        reply=ack_for(decoded)
+                        if port.write(reply)!=len(reply):raise OSError('确认帧未完整写入串口')
                     accept(decoded)
         except OSError as exc:
             error[0] = f'串口断开：{exc}。请重新连接并重启本程序；没有转为模拟。'
@@ -161,6 +178,7 @@ def main():
         update_status()
         root.after(100, poll)
 
+    # H 关闭串口、日志和窗口
     def close():
         if port:
             port.close()

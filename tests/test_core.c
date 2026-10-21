@@ -1,11 +1,19 @@
+/* 【19 ARM核心与无线驱动测试：使用假的时间和外设】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #include "energy_policy.h"
 #include "packet.h"
 #include "features.h"
 #include "boot_journal.h"
+#include "energy_budget.h"
+#include "radio.h"
+#include "app_config.h"
+#include "board.h"
 #include <stdint.h>
 
 volatile uint32_t test_checks,test_failed_line;
 uint8_t test_frame[PACKET_SIZE];
+uint8_t test_ack[ACK_SIZE];
 static uint32_t pages[2][BOOT_PAGE_WORDS];
 static int writes_left;
 #define CHECK(expr) do {test_checks++;if(!(expr)){test_failed_line=__LINE__;goto failed;}}while(0)
@@ -23,6 +31,32 @@ void test_main(void){
       .store_mv=3900,.vibration_mg=27,.state=2,.flags=7,.reset_count=3};
     packet_encode(&record,test_frame);
     CHECK(test_frame[0]==0xa5 && test_frame[1]==0x5a && test_frame[12]==0x2e && test_frame[13]==0xfb);
+    packet_ack_encode(record.node,record.boot,record.seq,test_ack);
+    CHECK(packet_ack_matches(test_ack,1,7,65535));
+    CHECK(!packet_ack_matches(test_ack,2,7,65535));
+    CHECK(!packet_ack_matches(test_ack,1,8,65535));
+    CHECK(!packet_ack_matches(test_ack,1,7,0));
+    test_ack[9]^=1;CHECK(!packet_ack_matches(test_ack,1,7,65535));test_ack[9]^=1;
+    fake_radio_reset(0);CHECK(radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_result()==RADIO_OK && fake_radio_sends()==1 && fake_radio_sleeping());
+    fake_radio_reset(1);CHECK(!radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_result()==RADIO_ACK_TIMEOUT && fake_radio_sends()==2 && fake_radio_sleeping());
+    fake_radio_reset(2);CHECK(radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_attempts()==2 && fake_radio_sleeping());
+    fake_radio_reset(3);CHECK(!radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_result()==RADIO_READY_TIMEOUT && fake_radio_sends()==0 && fake_radio_sleeping());
+    fake_radio_reset(4);CHECK(!radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_result()==RADIO_UART_ERROR && fake_radio_sleeping());
+    fake_radio_reset(5);CHECK(!radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_result()==RADIO_AUX_TIMEOUT && fake_radio_sleeping());
+    fake_radio_reset(6);CHECK(!radio_send(test_frame,PACKET_SIZE));CHECK(radio_last_result()==RADIO_ACK_TIMEOUT && fake_radio_sleeping());
+    CHECK(!radio_send(0,PACKET_SIZE) && radio_last_result()==RADIO_BAD_ARGUMENT);
+    static energy_budget_t budget;
+    CHECK(capacitor_energy_mj(4000)==8000);
+    budget_begin(&budget,4000,true,0);CHECK(!budget.estimate_valid && budget.available_mj==1339);
+    CHECK(budget_allow(&budget,1239) && !budget_allow(&budget,1240));
+    budget_charge(&budget,160);budget_begin(&budget,4000,true,15);
+    CHECK(budget.estimate_valid && budget.harvest_uw==10866);
+    CHECK(budget_period(&budget,15,165)==16);
+    budget.harvest_uw=SLEEP_POWER_UW;CHECK(budget_period(&budget,15,165)==MAX_ADAPTIVE_PERIOD_S);
+    budget_refresh(&budget,3600,true);CHECK(!budget_allow(&budget,1));
+    budget_refresh(&budget,4000,false);CHECK(budget.available_mj==0);
+    budget_begin(&budget,4000,false,30);CHECK(!budget.estimate_valid);
+    budget_begin(&budget,4000,true,45);CHECK(!budget.estimate_valid);
     CHECK(energy_update(ENERGY_NORMAL,3649,true,true).state==ENERGY_PROTECT);
     CHECK(!energy_update(ENERGY_NORMAL,4000,false,true).allow_radio);
     CHECK(energy_update(ENERGY_PROTECT,3799,true,true).state==ENERGY_PROTECT);

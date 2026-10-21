@@ -1,3 +1,4 @@
+// 【25 结构草模：盒体、磁芯、电子模块与装配占位】
 // Layout concept only. Units: mm. Verify purchased components before printing.
 // Animation: OpenSCAD View > Animate, FPS 20, Steps 100.
 // No manufacturing holes, isolation, sealing or tolerance verification is implied.

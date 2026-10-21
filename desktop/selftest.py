@@ -1,3 +1,6 @@
+"""【18 电脑协议自检：无需串口、传感器或密钥】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 """Run without sensors, serial ports, keys or internet: python selftest.py"""
 from protocol import Record, Parser, encode, decode, crc16, policy
 from deepseek_review import prepare

@@ -1,3 +1,6 @@
+/* 【05 数据计算接口】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #ifndef FEATURES_H
 #define FEATURES_H
 #include <stdbool.h>

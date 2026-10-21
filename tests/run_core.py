@@ -1,3 +1,6 @@
+"""【19 ARM测试执行器：交叉编译后在Unicorn运行】
+流程与文件对应关系见 docs/代码阅读地图.md。
+"""
 """Runs real cross-compiled pure C logic under Unicorn; does not emulate peripherals."""
 from pathlib import Path
 import json
@@ -18,9 +21,10 @@ def main():
     out = ROOT/'build/tests';out.mkdir(parents=True,exist_ok=True)
     elf = out/'test_core.elf';binary=out/'test_core.bin'
     src = ROOT/'firmware/Core/Src'
-    args=[gcc,'-mcpu=cortex-m3','-mthumb','-Os','-g','-ffreestanding','-fno-builtin','-nostdlib','-Wall','-Wextra','-Werror',
+    args=[gcc,'-mcpu=cortex-m3','-mthumb','-Os','-g','-ffreestanding','-fno-builtin','-nostdlib','-Wall','-Wextra','-Werror','-DAPP_RADIO_ACK=1',
+          '-I'+str(ROOT/'tests/fakes'),ROOT/'tests/fakes/radio_hal.c',
           '-I'+str(ROOT/'firmware/Core/Inc'), ROOT/'tests/test_core.c',
-          *[src/n for n in ('energy_policy.c','packet.c','features.c','boot_journal.c')],
+          *[src/n for n in ('energy_policy.c','energy_budget.c','radio.c','packet.c','features.c','boot_journal.c')],
           '-T'+str(ROOT/'tests/test_flash.ld'),'-lgcc','-o',elf]
     subprocess.run([str(a) for a in args],check=True)
     subprocess.run([str(gcc.parent/'arm-none-eabi-objcopy.exe'),'-O','binary',str(elf),str(binary)],check=True)
@@ -40,12 +44,13 @@ def main():
     assert reached,'测试未运行到结束（指令上限或异常）'
     assert word('test_failed_line')==0,f'C测试失败: test_core.c:{word("test_failed_line")}'
     sys.path.insert(0,str(ROOT/'desktop'))
-    from protocol import Record,encode
+    from protocol import Record,encode,ack_for
     expected=encode(Record(1,7,65535,123456,-1234,3900,27,2,7,3))
     actual=bytes(engine.mem_read(symbols['test_frame'],24))
     assert actual==expected,'ARM C 与 Python 数据帧不一致'
+    assert bytes(engine.mem_read(symbols['test_ack'],10))==ack_for(Record(1,7,65535,123456,-1234,3900,27,2,7,3)),'ARM C 与 Python 确认帧不一致'
     report={'status':'PASS','checks':word('test_checks'),'python_frame_matches_arm_c':True,
-            'scope':'Pure C logic only; no GPIO, RTC, ADC, I2C, RF or flash hardware emulation',
+            'scope':'Core logic and radio driver under fake HAL; no actual GPIO, RTC, ADC, I2C, RF or flash hardware validation',
             'unicorn_version':uc.__version__,'frame_hex':actual.hex()}
     (out/'result.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
     print(json.dumps(report,ensure_ascii=False,indent=2))

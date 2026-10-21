@@ -13,6 +13,7 @@
     },
     {
       "label": "Build bringup",
+      "detail": "编译：01 点亮与串口",
       "type": "process",
       "command": "python",
       "args": [
@@ -30,6 +31,7 @@
     },
     {
       "label": "Flash bringup",
+      "detail": "烧录：01 点亮与串口",
       "type": "process",
       "command": "python",
       "args": [
@@ -41,6 +43,7 @@
     },
     {
       "label": "Build sensors",
+      "detail": "编译：02 温度振动电压采集",
       "type": "process",
       "command": "python",
       "args": [
@@ -58,6 +61,7 @@
     },
     {
       "label": "Flash sensors",
+      "detail": "烧录：02 温度振动电压采集",
       "type": "process",
       "command": "python",
       "args": [
@@ -69,6 +73,7 @@
     },
     {
       "label": "Build wireless",
+      "detail": "编译：03 无线单向联调",
       "type": "process",
       "command": "python",
       "args": [
@@ -86,6 +91,7 @@
     },
     {
       "label": "Flash wireless",
+      "detail": "烧录：03 无线单向联调",
       "type": "process",
       "command": "python",
       "args": [
@@ -96,7 +102,38 @@
       "problemMatcher": []
     },
     {
+      "label": "Build wireless_ack",
+      "detail": "编译：04 无线确认与重试",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "build",
+        "wireless_ack"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Flash wireless_ack",
+      "detail": "烧录：04 无线确认与重试",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "flash",
+        "wireless_ack"
+      ],
+      "problemMatcher": []
+    },
+    {
       "label": "Build adaptive",
+      "detail": "编译：05 能量预算与自适应休眠",
       "type": "process",
       "command": "python",
       "args": [
@@ -114,6 +151,7 @@
     },
     {
       "label": "Flash adaptive",
+      "detail": "烧录：05 能量预算与自适应休眠",
       "type": "process",
       "command": "python",
       "args": [
@@ -125,6 +163,7 @@
     },
     {
       "label": "Build fixed",
+      "detail": "编译：06 固定周期对比",
       "type": "process",
       "command": "python",
       "args": [
@@ -142,6 +181,7 @@
     },
     {
       "label": "Flash fixed",
+      "detail": "烧录：06 固定周期对比",
       "type": "process",
       "command": "python",
       "args": [

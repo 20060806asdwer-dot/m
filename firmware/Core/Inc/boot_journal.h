@@ -1,3 +1,6 @@
+/* 【10 启动记录存储接口】
+ * 阅读导航：docs/代码阅读地图.md。
+ */
 #ifndef BOOT_JOURNAL_H
 #define BOOT_JOURNAL_H
 #include <stdbool.h>
