@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-21",
+  "board": "STM32F103C8T6 Blue Pill PC13",
+  "compiler": "arm-none-eabi-gcc.exe (GNU Tools for STM32 13.3.rel1.20250523-0900) 13.3.1 20240614",
+  "checks": [
+    "five profiles compile and link with -Wall -Wextra -Werror",
+    "4658 pure C checks under Unicorn 2.1.4 and ARM C/Python frame equality",
+    "Python protocol selftest and 4 desktop analysis tests"
+  ],
+  "not_tested": [
+    "physical flash/SWD/F5 session",
+    "sensor and RF peripherals",
+    "RTC STOP wake and IWDG on actual hardware",
+    "power harvesting and current measurements",
+    "DeepSeek live API"
+  ],
+  "profiles": [
+    {
+      "profile": "bringup",
+      "flash_bytes": 8716,
+      "reserved_flash_journal_bytes": 2048,
+      "data_bss_stack_heap_bytes": 3176,
+      "minimum_stack_bytes": 2048,
+      "heap_bytes": 512,
+      "files": {
+        "railnode.bin": "24ddc7c62c67890e8ec2e65fd45e5a586cc312de961074e61b20391fa9c59ecb",
+        "railnode.elf": "aac5fe742c89a51a6b67155b2c6eb63bc13e2b4b4c8ac8b3201a9b80a77e939b",
+        "railnode.hex": "f91f2589cafeba76a06f7bf803473bff867025f071507b1d6f5f51f846bc5d89"
+      }
+    },
+    {
+      "profile": "sensors",
+      "flash_bytes": 16496,
+      "reserved_flash_journal_bytes": 2048,
+      "data_bss_stack_heap_bytes": 3292,
+      "minimum_stack_bytes": 2048,
+      "heap_bytes": 512,
+      "files": {
+        "railnode.bin": "e72411fa8299387c29b61992d239b83cfde3eafd9bd742afaa538d06d395637d",
+        "railnode.elf": "0fd592a6f768c119d1c8c2627192ec28eae6073bdf2bebe72711858d4b2be526",
+        "railnode.hex": "1fd60abfebe4ce2a9058059acc1cfb660a855a29b02989bc56ad48e32b2e4aa1"
+      }
+    },
+    {
+      "profile": "wireless",
+      "flash_bytes": 17096,
+      "reserved_flash_journal_bytes": 2048,
+      "data_bss_stack_heap_bytes": 3364,
+      "minimum_stack_bytes": 2048,
+      "heap_bytes": 512,
+      "files": {
+        "railnode.bin": "e4b6dbfe69ab258661ea3adb64cb7c521e31ae58c940f5152aa19c6103be27aa",
+        "railnode.elf": "550d1dd4b35651c7ad7b880ff7d1494432d5e8422469ba5ba859a4caca5dd697",
+        "railnode.hex": "174740738b8e7589dfa66a5d7c92550e5656fdcc5ff4113fb95e76790fcaf257"
+      }
+    },
+    {
+      "profile": "adaptive",
+      "flash_bytes": 14472,
+      "reserved_flash_journal_bytes": 2048,
+      "data_bss_stack_heap_bytes": 2964,
+      "minimum_stack_bytes": 2048,
+      "heap_bytes": 512,
+      "files": {
+        "railnode.bin": "91811a514f0ac9220e9ecbbba7cecdf50e0e3bffab1439588a688a4d958ec6e6",
+        "railnode.elf": "23091924ee6d2831f47ed291878bf4516769ace5c2301e53ef9c88480234e8a0",
+        "railnode.hex": "f429e7304622b8e458f2865e93da57b8f6dbcc314a4b4113a697b2117862d313"
+      }
+    },
+    {
+      "profile": "fixed",
+      "flash_bytes": 14468,
+      "reserved_flash_journal_bytes": 2048,
+      "data_bss_stack_heap_bytes": 2964,
+      "minimum_stack_bytes": 2048,
+      "heap_bytes": 512,
+      "files": {
+        "railnode.bin": "5750d6833b37242ce985633f5a1e2b045ee400001a14156a3407a16afd8f4896",
+        "railnode.elf": "e16155eb08cdbf5e955f6d07a2a9be9e96dc7ed9d643cea51b15910bcbb84e8f",
+        "railnode.hex": "c66c862d8f8b5bbd3924adb374a7d1faaaef9e3ebdbd352df076e860a7072fb3"
+      }
+    }
+  ],
+  "application_source_sha256": {
+    "CMakeLists.txt": "c1e5c1a13bc0b7a1ad6bace92905a8bbd2b4806b3a0e528b1cf4da16c1338705",
+    "CMakePresets.json": "d9f18e9d95d5367db1b9c63f49a8e259bd3ace626ca32f45876e048510e6de01",
+    "cmake/arm-gcc.cmake": "4f5c9494d7fea8e4219beb76a8007895290b74ceda82df54aac83bbc7580f88d",
+    "firmware/STM32F103C8Tx_FLASH.ld": "fa5dbb5695098e89044891b253516e72fe0be9d2c5789c3b29a7d17e49f278c8",
+    "firmware/Core/Inc/app_config.h": "01768f6dbf30d904e37147504e46a7e51e49161465fc798039fccc692b5b05fd",
+    "firmware/Core/Inc/board.h": "f5c8804ee1670fbc9b04a63406b3ebad70a51993b1cf9542295a93955638539c",
+    "firmware/Core/Inc/boot_journal.h": "45976af211f3c47b59b93c1e66f735f5ee9ce2dfffaab595f14bd94c54a1af87",
+    "firmware/Core/Inc/energy_policy.h": "5b6ef507a111e668422183559168e925ef5ebfdee783d2186651be7346f21854",
+    "firmware/Core/Inc/features.h": "f20672ca8d4511b3532396d8a5dc1bb34f005469465661554163c7df5e6eb7bd",
+    "firmware/Core/Inc/packet.h": "48faceccbf238a9c2aa4babc337bc1c8a0df9348c37f5e34cda4ce1ca31835d5",
+    "firmware/Core/Inc/radio.h": "b2c0a7b49df0229bbd4af1267c6944a12a2dfd1a451ca5093e5eb25849c09ec6",
+    "firmware/Core/Inc/sensors.h": "caf1a410ce1b2d98a1bc1fd11a45756911dedba2d117a34d45d52d31673c4b72",
+    "firmware/Core/Inc/stm32f1xx_hal_conf.h": "5dba2984f8ec8f0a9ee3163d89ef394828aa692fd24bc0ff783e19771b878cdd",
+    "firmware/Core/Src/board.c": "c58daafbce2bed5c9b29e69b992f2b96f218445b45a56adef27f9a9e5250fabf",
+    "firmware/Core/Src/boot_journal.c": "34c082b90b7873b24b818ae6cbecfdfec12d5c2ef96392e34a464a7e37d4c64b",
+    "firmware/Core/Src/energy_policy.c": "52a86daf70c4944e2a566bd247d41cd0c55335f56d47746bb9a692743b65cb7a",
+    "firmware/Core/Src/features.c": "cd0e4f77c8d17e3e5a336eccb40aff617f4e5166bff461ad9f189b31b93c92cc",
+    "firmware/Core/Src/main.c": "b337994a9f3bc1fd7bf87b7fce8952ae0b49d4cf4ea8c999bf4880be6230a1cf",
+    "firmware/Core/Src/packet.c": "aaf761d37ab8539f560df76fdcdc51a215bed057c668375256646415ecd55395",
+    "firmware/Core/Src/radio.c": "17a91ea79b578a180d24a7de8c96bd55edb4639951670f079ecc48fbbc37bc67",
+    "firmware/Core/Src/sensors.c": "e5e03bfef64fa714a455cd5922c9111472b6130a0cd9efef6c6850acbb2034e7",
+    "firmware/Core/Src/syscalls.c": "09e70b9314125667982cf98202887e460d588f0c22d81f1743996c290e77320c"
+  }
+}

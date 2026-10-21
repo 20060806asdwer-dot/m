@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>磁场取电监测装置 · 3D动态结构模型</title>
+<style>
+:root{font-family:"Microsoft YaHei UI","PingFang SC",sans-serif;color:#213948;background:#edf2f2;--green:#087f70;--muted:#617886}*{box-sizing:border-box}body{margin:0}header{padding:24px 30px 18px;background:#fcfdfb;border-bottom:1px solid #d9e2e1;display:flex;justify-content:space-between;gap:20px;align-items:center}h1{font-size:24px;letter-spacing:.03em;margin:4px 0 8px}p{line-height:1.65;margin:8px 0}.eyebrow{font-size:11px;letter-spacing:.15em;color:#668377}.tag{font-size:12px;background:#f8edda;color:#875e1f;border:1px solid #eadbbd;padding:7px 10px;border-radius:5px;white-space:nowrap}.sub{font-size:12px;color:var(--muted)}main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;padding:18px 24px;max-width:1640px;margin:auto}.stage{background:#f8fbf9;border:1px solid #d2dedb;border-radius:10px;overflow:hidden;min-width:0;position:relative}.stagebar{display:flex;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid #dfebe6;font-size:12px;color:#607b75}.stagebar strong{color:#2c554c}canvas{display:block;width:100%;height:570px;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}.canvasfoot{padding:12px 18px;border-top:1px solid #dfebe6;font-size:12px;line-height:1.65;color:#6c7c78}.toolbar{display:flex;gap:8px;flex-wrap:wrap;position:absolute;top:65px;left:16px}button{font:inherit;cursor:pointer;border:1px solid #c6d7d2;background:#fff;color:#285347;padding:8px 12px;border-radius:5px;font-size:12px}button:hover{background:#e7f4ee}button.active{background:#087f70;color:#fff;border-color:#087f70}aside{display:flex;flex-direction:column;gap:13px}.panel{background:#fcfdfb;border:1px solid #d6e2de;padding:17px;border-radius:8px}.panel h2{margin:0 0 12px;font-size:14px}.control{margin:14px 0}.control label{display:flex;justify-content:space-between;font-size:12px;gap:8px}input[type=range]{width:100%;accent-color:#087f70;margin:9px 0 0}output{color:#087f70;font-variant-numeric:tabular-nums}.component{display:flex;align-items:center;text-align:left;gap:10px;width:100%;margin:6px 0;padding:8px;border:1px solid transparent;background:transparent}.component small{display:block;color:#73877f;font-size:10px;margin-top:2px}.num{border:1px solid #bbd7cb;color:#087f70;display:grid;place-items:center;width:25px;height:25px;flex-shrink:0;border-radius:50%;font-size:11px}.component.active{background:#e8f4ef;color:#174e3b;border-color:#bad9c9}.component.active .num{border-color:#087f70}.detail{font-size:12px;color:#567064;min-height:67px;margin-top:10px;border-top:1px solid #dbe8e1;padding-top:10px}.meter{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#f0f6f2;padding:11px;border-radius:5px}.metric span{font-size:10px;color:#71867d}.metric strong{display:block;font-size:21px;color:#235a46;margin-top:5px;font-weight:500}.energybar{height:5px;background:#dbe7df;margin:12px 0}.energybar i{display:block;height:100%;background:#16a783;width:50%}.equation{font:11px/1.7 Consolas,monospace;color:#56786b}footer{max-width:1640px;margin:0 auto;padding:0 26px 24px;font-size:11px;color:#72867d;line-height:1.7}.state{font-size:11px;color:#087f70}.note{font-size:11px;color:#93692b}.key{display:inline-block;width:14px;height:3px;background:#20a081;margin:0 5px 3px 9px}.key.copper{background:#c08246}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0 0}.steps div{background:#f8fbf9;border:1px solid #d8e5de;padding:12px;border-radius:6px;font-size:12px;color:#45735d}.steps small{display:block;font-size:10px;color:#7d8e84;margin-top:5px}@media(max-width:1050px){main{grid-template-columns:1fr}aside{display:grid;grid-template-columns:1fr 1fr}.panel:last-child{grid-column:1/-1}canvas{height:500px}}@media(max-width:640px){header{padding:16px;display:block}h1{font-size:19px}.tag{display:inline-block;margin-top:8px}main{padding:12px;gap:12px}aside{display:block}.panel{margin-bottom:12px}canvas{height:420px}.steps{grid-template-columns:1fr 1fr}.toolbar{max-width:90%}.stagebar{font-size:10px}}
+</style>
+<header><div><div class="eyebrow">EMBEDDED SYSTEMS / ENGINEERING CONCEPT 01</div><h1>磁场取电无线监测装置</h1><div class="sub">结构拆解 · 能量路径 · 储能调度　/　2026.10.21 方案版</div></div><div class="tag">概念模型　尺寸与性能待实测</div></header>
+<main><section style="min-width:0"><div class="stage"><div class="stagebar"><strong>三维装配视图</strong><span>左键旋转 · 右键平移 · 滚轮缩放 · 双击复位</span></div><div class="toolbar"><button id="play" class="active">暂停动画</button><button id="rotate">自动旋转</button><button id="reset">重置视角</button><button id="front">正面</button><button id="top">俯视</button><button id="labels" class="active">编号开</button></div><canvas id="scene" aria-label="三维结构。左键旋转，右键或中键平移，滚轮围绕鼠标位置缩放，双击复位；触屏单指旋转，双指缩放和平移。"></canvas><div class="canvasfoot">操作：左键旋转；右键 / 中键 / Shift加左键平移；滚轮围绕鼠标缩放；双击复位。触屏单指旋转，双指缩放和平移。<br><span class="key copper"></span>交流导线与绕组　<span class="key"></span>取电与储能路径　<span class="key" style="background:#568cd0"></span>无线信息路径<br>磁芯打开时示意取电停止。节点断开所有调试供电后运行，才可用于自供电验收。</div></div><div class="steps"><div>01 磁场取电<small>隔离低压50Hz实验回路</small></div><div>02 整流与降压<small>保护 / 限压 / 稳压</small></div><div>03 能量缓冲<small>限流充电 / 超级电容</small></div><div>04 状态采集<small>温度 / 短窗振动</small></div><div>05 无线接收<small>LoRa / 本地上位机</small></div></div></section>
+<aside><section class="panel"><h2>装配与结构</h2><div class="control"><label for="explode">爆炸展开<output id="explodeOut">0%</output></label><input id="explode" type="range" min="0" max="100" value="0"></div><div class="control"><label for="opening">磁芯开启<output id="openingOut">0°</output></label><input id="opening" type="range" min="0" max="75" value="0"></div><div id="components"></div><div class="detail" id="detail"></div></section>
+<section class="panel"><h2>能量调度演示 <span class="state">示意数据</span></h2><div class="meter"><div class="metric"><span>储能轨 VSTORE</span><strong id="voltage">3.900 V</strong></div><div class="metric"><span>调度状态</span><strong id="state" style="font-size:17px">低能量</strong></div></div><div class="energybar"><i id="energyfill"></i></div><div class="control"><label for="power">储能端可用输入<output id="powerOut">12 mW</output></label><input id="power" type="range" min="0" max="30" value="12"></div><div class="control"><label for="simv">设置初始储能电压<output id="simvOut">3.90 V</output></label><input id="simv" type="range" min="340" max="400" value="390"></div><button id="drain">模拟交流中断</button><p class="equation">C = 1 F　/　时间倍率 ×10<br>dE/dt = P输入 − P负载<br>V = √(2E/C)　/　状态使用滞回阈值</p><p class="note">负载为教学假设：正常5mW、低能量2mW、保护0.2mW，另计0.2mW损耗。未模拟冷启动电路、无线脉冲、磁芯饱和或电磁效率，不能作为性能报告。</p></section>
+</aside></main><footer>当前几何为三维坐标网格的正交投影，可从任意角度查看。盒体初始包络约110 × 75 × 45mm；磁芯、板卡和天线尺寸为布局占位。最终CAD需根据实物尺寸、接口净空和试装修订。非高压绝缘设计，非IP65认证图。</footer>
+<script>
+'use strict';
+const canvas=document.getElementById('scene'),ctx=canvas.getContext('2d');
+const $=id=>document.getElementById(id), tau=2*Math.PI;
+const components=[
+ {id:1,name:'开合磁芯与次级绕组',sub:'50Hz 磁场耦合',anchor:[-54,0,98],text:'用闭合磁路捕获交流磁场。材料、截面积、匝数及气隙决定取电表现，必须测带载曲线。'},
+ {id:2,name:'防护 整流与降压小板',sub:'LMR36503 基线方案',anchor:[9,-18,28],text:'原始取能经保护、整流和降压至约4V。保护阈值与泄放能力需要独立测试，不能直接接交流高压。'},
+ {id:3,name:'超级电容与限流支路',sub:'0.47–1 F / 低ESR',anchor:[18,20,37],text:'储能缓冲无线峰值，平衡间歇供电。1F从4.0V用至3.6V，理想可用能量1.52J，不等于20小时续航。'},
+ {id:4,name:'STM32与传感器',sub:'温度 振动 储能电压',anchor:[60,-10,39],text:'STM32F103负责传感器采集和能量调度。温度用1-Wire，加速度用I2C，储能电压经分压后送ADC。'},
+ {id:5,name:'LoRa发送模块',sub:'UART / AUX / 休眠',anchor:[71,24,46],text:'一对同型号UART LoRa模组。发送后按手册进入休眠；无线峰值要通过储能和供电支路实测验证。'},
+ {id:6,name:'远端接收与电脑',sub:'独立供电 USB串口',anchor:[157,0,29],text:'接收端独立供电，将收到的数据送电脑。无线链路避免节点被USB意外供电，模拟与实测必须分开标识。'}
+];
+let selected=1, yaw=-.37, pitch=.62, zoom=1, panX=0, panY=0, running=true, rotating=false, labels=true;
+let width=1,height=1,phase=0,last=0,energy=.5*3.9**2,state=1,shapes=[];
+components.forEach(c=>{const b=document.createElement('button');b.className='component'+(c.id===1?' active':'');b.dataset.id=c.id;b.innerHTML=`<span class="num">${String(c.id).padStart(2,'0')}</span><span>${c.name}<small>${c.sub}</small></span>`;b.onclick=()=>{selected=c.id;document.querySelectorAll('.component').forEach(v=>v.classList.toggle('active',Number(v.dataset.id)===selected));$('detail').textContent=c.text;};$('components').appendChild(b)});$('detail').textContent=components[0].text;
+function size(){const r=canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);width=r.width;height=r.height;canvas.width=Math.round(width*d);canvas.height=Math.round(height*d);ctx.setTransform(d,0,0,d,0,0)}new ResizeObserver(size).observe(canvas);
+function project(v){let x=v[0]-31,y=v[1],z=v[2]-36;let a=x*Math.cos(yaw)-y*Math.sin(yaw),b=x*Math.sin(yaw)+y*Math.cos(yaw);const s=Math.min(width/330,height/235)*zoom;return [width*.5+panX+a*s,height*.61+panY+(b*Math.sin(pitch)-z*Math.cos(pitch))*s,b*Math.cos(pitch)+z*Math.sin(pitch)]}
+function face(v,color,id=0,alpha=1){shapes.push({v,color,id,alpha,depth:v.reduce((a,p)=>a+project(p)[2],0)/v.length})}
+function cube(cx,cy,cz,sx,sy,sz,color,id=0,alpha=1){const v=[];for(let z of [-1,1])for(let y of [-1,1])for(let x of [-1,1])v.push([cx+x*sx/2,cy+y*sy/2,cz+z*sz/2]);[[0,1,3,2],[4,6,7,5],[0,4,5,1],[2,3,7,6],[0,2,6,4],[1,5,7,3]].forEach(f=>face(f.map(i=>v[i]),color,id,alpha))}
+function cylinder(x,y,z,r,h,color,id=0){const top=[],bottom=[];for(let i=0;i<28;i++){const a=i*tau/28,b=(i+1)*tau/28,p=[x+r*Math.cos(a),y+r*Math.sin(a),z],q=[x+r*Math.cos(b),y+r*Math.sin(b),z];top.push([p[0],p[1],z+h]);bottom.push(p);face([p,q,[q[0],q[1],z+h],[p[0],p[1],z+h]],color,id)}face(top,color,id);face(bottom,color,id)}
+function openingTransform(p){let a=-Number($('opening').value)*Math.PI/180,x=p[0]+99,z=p[2]-65;return [-99+x*Math.cos(a)+z*Math.sin(a),p[1],65-x*Math.sin(a)+z*Math.cos(a)]}
+function torus(start,end,color,id=1,r=8,R=45){const steps=Math.max(4,Math.ceil((end-start)*18));for(let i=0;i<steps;i++)for(let j=0;j<8;j++){const v=[];for(let [a,b]of[[i,j],[i+1,j],[i+1,j+1],[i,j+1]]){const t=start+(end-start)*a/steps,u=b*tau/8;let p=[-54+(R+r*Math.cos(u))*Math.cos(t),r*Math.sin(u),65+(R+r*Math.cos(u))*Math.sin(t)];if(end<=Math.PI+.001)p=openingTransform(p);v.push(p)}face(v,color,id)}}
+function shade(color,v){const a=v[0],b=v[1],c=v[2];let n=[(b[1]-a[1])*(c[2]-a[2])-(b[2]-a[2])*(c[1]-a[1]),(b[2]-a[2])*(c[0]-a[0])-(b[0]-a[0])*(c[2]-a[2]),(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])];let len=Math.hypot(...n)||1,light=.63+.33*Math.abs((n[0]*-.3+n[1]*-.4+n[2]*.85)/len);return '#'+color.match(/[a-f0-9]{2}/gi).map(h=>Math.min(255,Math.round(parseInt(h,16)*light)).toString(16).padStart(2,'0')).join('')}
+function polyline(points,color,line=1,dash=[]){ctx.beginPath();points.map(project).forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle=color;ctx.lineWidth=line;ctx.setLineDash(dash);ctx.stroke();ctx.setLineDash([])}
+function pulse(points,color,enabled=true){polyline(points,color,1.6,enabled?[]:[3,4]);if(!enabled)return;for(let i=0;i<4;i++){let pos=(phase*.3+i/4)%1,n=pos*(points.length-1),k=Math.floor(n),f=n-k,a=points[k],b=points[Math.min(k+1,points.length-1)],p=project(a.map((v,j)=>v+(b[j]-v)*f));ctx.beginPath();ctx.arc(p[0],p[1],3,0,tau);ctx.fillStyle=color;ctx.fill()}}
+function assembly(){const e=Number($('explode').value)/100;shapes=[];
+ // Cable axis passes through the core aperture. Return conductor stays outside.
+ const cable=(y1,y2)=>{for(let i=0;i<14;i++){let a=i*tau/14,b=(i+1)*tau/14;face([[-54+4*Math.cos(a),y1,65+4*Math.sin(a)],[-54+4*Math.cos(b),y1,65+4*Math.sin(b)],[-54+4*Math.cos(b),y2,65+4*Math.sin(b)],[-54+4*Math.cos(a),y2,65+4*Math.sin(a)]],'#c68748')}};cable(-90,90);
+ torus(0,Math.PI,'#708a8b');torus(Math.PI,tau,'#536f73');for(let i=0;i<12;i++){let t=3.9+i*.085;torus(t,t+.035,'#d99a53',1,9.2,45)}
+ cube(-99,0,65,9,20,11,'#91a2a0',1);cube(-9,0,65,7,20,11,'#80938d',1);
+ cube(43,0,7,110,75,8,'#c7dbd2');
+ for(let [x,y]of[[-6,-30],[91,-30],[-6,30],[91,30]])cylinder(x,y,11,2.2,12,'#9daea2');
+ // Side walls are translucent to keep the internal arrangement visible.
+ cube(43,-36,29,110,3,36,'#cee4d6',0,.24);cube(43,36,29,110,3,36,'#cee4d6',0,.17);cube(-10,0,29,3,69,36,'#cee4d6',0,.25);cube(96,0,29,3,69,36,'#cee4d6',0,.18);
+ const pz=25+e*23,mz=32+e*44,rz=37+e*60,cz=15+e*24;
+ cube(10,-17,pz,32,30,2,'#338b66',2);cube(7,-20,pz+4,8,8,5,'#435052',2);cube(20,-20,pz+4,6,6,5,'#d1b775',2);cylinder(1,-9,pz+1,3,7,'#b9b7a2',2);
+ cylinder(18,20,cz,10,25,'#294b50',3);cylinder(18,20,cz+25,9,1,'#a2b6a5',3);cube(18,20,cz+26,1,12,1,'#e1dca8',3);
+ cube(58,-13,mz,44,24,2,'#2e7c9a',4);cube(56,-13,mz+3,11,11,3,'#343e46',4);for(let i=0;i<12;i++){cube(39+i*3.5,-24,mz+2,1.4,2.4,2,'#d5c28b',4);cube(39+i*3.5,-2,mz+2,1.4,2.4,2,'#d5c28b',4)}
+ cube(84,-23,mz+2,14,12,2,'#397e68',4);cube(84,-23,mz+4,5,5,2,'#3a4646',4);
+ cube(67,23,rz,36,21,2,'#338562',5);cube(67,23,rz+3,24,15,4,'#bdc9c7',5);cylinder(87,24,rz+1,2,48,'#263b43',5);
+ cube(43,0,52+e*79,110,75,5,'#d5e5da',0,.53);for(let x=1;x<90;x+=9)cube(x,0,56+e*79,3,57,3,'#bfd3c5',0,.62);
+ cube(158,0,15,35,33,18,'#d2e0dc',6);cube(158,0,26,28,25,3,'#4a8190',6);cylinder(171,10,26,1.7,39,'#344750',6);cube(155,-22,14,10,14,6,'#a6b6ba',6);
+ return {e,pz,mz,rz,cz};}
+function draw(){ctx.clearRect(0,0,width,height);let g=ctx.createLinearGradient(0,0,0,height);g.addColorStop(0,'#fafcf9');g.addColorStop(1,'#eaf2ec');ctx.fillStyle=g;ctx.fillRect(0,0,width,height);
+ for(let x=-140;x<=200;x+=20)polyline([[x,-100,0],[x,100,0]],'#dbe6df',.6);for(let y=-100;y<=100;y+=20)polyline([[-140,y,0],[200,y,0]],'#dbe6df',.6);
+ const geo=assembly();shapes.sort((a,b)=>a.depth-b.depth);
+ for(const f of shapes){const pts=f.v.map(project);ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.globalAlpha=f.alpha;ctx.fillStyle=shade(f.color,f.v);ctx.fill();ctx.strokeStyle=f.id===selected?'#cba767':'#476359';ctx.lineWidth=f.id===selected?.55:.16;ctx.stroke();ctx.globalAlpha=1;}
+ const hasInput=Number($('power').value)>0&&Number($('opening').value)<1;
+ pulse([[-25,-2,28],[-25,-43,17],[8,-43,17],[8,-20,geo.pz+3]],'#c28848',hasInput);
+ pulse([[20,-16,geo.pz+3],[28,0,geo.pz],[18,20,geo.cz+12]],'#1a9c7c',hasInput);
+ pulse([[20,20,geo.cz+20],[41,12,geo.mz],[58,-13,geo.mz+4]],'#149580',state>0);
+ pulse([[58,-10,geo.mz+5],[75,-3,geo.rz],[67,23,geo.rz+5]],'#149580',state>0);
+ pulse([[87,24,geo.rz+44],[116,15,geo.rz+65],[145,7,66],[171,10,63]],'#568bd1',state>0);
+ if(labels)components.forEach(c=>{let a=[...c.anchor];if(c.id===1)a=openingTransform(a);if(c.id===2)a[2]+=geo.e*23;if(c.id===3)a[2]+=geo.e*24;if(c.id===4)a[2]+=geo.e*44;if(c.id===5)a[2]+=geo.e*60;let p=project(a);ctx.beginPath();ctx.arc(p[0],p[1],11,0,tau);ctx.fillStyle=c.id===selected?'#0c7f6c':'#f9fdfb';ctx.fill();ctx.strokeStyle='#1d846f';ctx.lineWidth=1;ctx.stroke();ctx.font='10px Consolas,monospace';ctx.fillStyle=c.id===selected?'white':'#2c7767';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(c.id).padStart(2,'0'),p[0],p[1]);});
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.font='11px "Microsoft YaHei UI",sans-serif';ctx.fillStyle='#718a7d';ctx.fillText('50 Hz 交流导线（仅示意一根去程线）',18,height-38);ctx.fillText('结构视图不代表实测性能，布局包络与实物尺寸待核对',18,height-19);
+}
+function policy(prev,mv){if(mv<3650)return 0;if(prev===0&&mv<3800)return 0;return mv>=3950||(prev===2&&mv>=3850)?2:1}
+function step(dt){if(!Number.isFinite(dt)||dt<0)return;const input=Number($('opening').value)<1?Number($('power').value)/1000:0;state=policy(state,Math.round(Math.sqrt(2*energy)*1000));const load=[.0002,.002,.005][state]+.0002;energy=Math.max(0,Math.min(8,energy+(input-load)*dt*10));phase+=dt;state=policy(state,Math.round(Math.sqrt(2*energy)*1000));}
+function updateReadings(){const v=Math.sqrt(2*energy);$('voltage').textContent=v.toFixed(3)+' V';$('state').textContent=['充电保护','低能量','正常'][state];$('energyfill').style.width=Math.max(0,Math.min(100,(v-3.4)/.6*100))+'%'}
+function loop(t){const dt=last?Math.min((t-last)/1000,.08):0;last=t;if(running){step(dt);if(rotating)yaw+=dt*.14}updateReadings();draw();requestAnimationFrame(loop)}
+for(const id of ['explode','opening','power'])$(id).addEventListener('input',()=>{$(id+'Out').textContent=$(id).value+({explode:'%',opening:'°',power:' mW'}[id]);});
+$('simv').oninput=()=>{const v=Number($('simv').value)/100;energy=.5*v*v;$('simvOut').textContent=v.toFixed(2)+' V';state=policy(0,Math.round(v*1000));};
+$('play').onclick=()=>{running=!running;$('play').textContent=running?'暂停动画':'继续动画';$('play').classList.toggle('active',running)};
+$('rotate').onclick=()=>{rotating=!rotating;$('rotate').classList.toggle('active',rotating)};
+function stopRotation(){rotating=false;$('rotate').classList.remove('active');}
+function resetCamera(){stopRotation();yaw=-.37;pitch=.62;zoom=1;panX=0;panY=0;}
+$('reset').onclick=resetCamera;$('front').onclick=()=>{resetCamera();yaw=0;pitch=.05;};$('top').onclick=()=>{resetCamera();yaw=0;pitch=1.48;};$('labels').onclick=()=>{labels=!labels;$('labels').textContent=labels?'编号开':'编号关';$('labels').classList.toggle('active',labels)};
+$('drain').onclick=()=>{$('power').value=0;$('powerOut').textContent='0 mW'};
+function zoomAt(clientX,clientY,factor){
+ const rect=canvas.getBoundingClientRect(),x=clientX-rect.left,y=clientY-rect.top;
+ const next=Math.max(.45,Math.min(2.8,zoom*factor)),ratio=next/zoom;
+ panX=x-width*.5-(x-width*.5-panX)*ratio;
+ panY=y-height*.61-(y-height*.61-panY)*ratio;
+ zoom=next;
+}
+const pointers=new Map();
+canvas.addEventListener('pointerdown',e=>{
+ if(e.pointerType==='mouse'&&![0,1,2].includes(e.button))return;
+ e.preventDefault();stopRotation();
+ pointers.set(e.pointerId,{x:e.clientX,y:e.clientY,pan:e.button===1||e.button===2||e.shiftKey});
+ canvas.setPointerCapture(e.pointerId);canvas.style.cursor=e.button===1||e.button===2||e.shiftKey?'move':'grabbing';
+});
+canvas.addEventListener('pointermove',e=>{
+ const previous=pointers.get(e.pointerId);if(!previous)return;
+ const before=[...pointers.values()];
+ pointers.set(e.pointerId,{...previous,x:e.clientX,y:e.clientY});
+ if(pointers.size>=2){
+  const after=[...pointers.values()],center=a=>[(a[0].x+a[1].x)/2,(a[0].y+a[1].y)/2];
+  const oldCenter=center(before),newCenter=center(after);
+  const oldDistance=Math.hypot(before[0].x-before[1].x,before[0].y-before[1].y);
+  const newDistance=Math.hypot(after[0].x-after[1].x,after[0].y-after[1].y);
+  if(oldDistance>1)zoomAt(oldCenter[0],oldCenter[1],newDistance/oldDistance);
+  panX+=newCenter[0]-oldCenter[0];panY+=newCenter[1]-oldCenter[1];
+ }else if(previous.pan||e.shiftKey){panX+=e.clientX-previous.x;panY+=e.clientY-previous.y;}
+ else{yaw-=(e.clientX-previous.x)*.0045;pitch=Math.max(-.8,Math.min(1.48,pitch+(e.clientY-previous.y)*.0045));}
+});
+function endPointer(e){pointers.delete(e.pointerId);if(!pointers.size)canvas.style.cursor='grab';}
+canvas.addEventListener('pointerup',endPointer);canvas.addEventListener('pointercancel',endPointer);canvas.addEventListener('lostpointercapture',endPointer);
+canvas.addEventListener('contextmenu',e=>e.preventDefault());
+canvas.addEventListener('dblclick',e=>{if(e.button===0){e.preventDefault();resetCamera();}});
+canvas.addEventListener('wheel',e=>{e.preventDefault();stopRotation();const units=e.deltaMode===1?16:e.deltaMode===2?height:1;zoomAt(e.clientX,e.clientY,Math.exp(-e.deltaY*units*.0012));},{passive:false});
+window.modelDebug={snapshot:()=>({voltage:Math.sqrt(2*energy),state,selected,running,opening:Number($('opening').value),explode:Number($('explode').value),faces:shapes.length,yaw,pitch,zoom,panX,panY}),step,policy,project};
+size();requestAnimationFrame(loop);
+</script></html>

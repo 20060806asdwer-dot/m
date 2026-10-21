@@ -1,0 +1,72 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "bringup",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/bringup",
+      "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
+      "cacheVariables": {
+        "PROFILE": "bringup"
+      }
+    },
+    {
+      "name": "sensors",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/sensors",
+      "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
+      "cacheVariables": {
+        "PROFILE": "sensors"
+      }
+    },
+    {
+      "name": "wireless",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/wireless",
+      "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
+      "cacheVariables": {
+        "PROFILE": "wireless"
+      }
+    },
+    {
+      "name": "adaptive",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/adaptive",
+      "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
+      "cacheVariables": {
+        "PROFILE": "adaptive"
+      }
+    },
+    {
+      "name": "fixed",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/fixed",
+      "toolchainFile": "${sourceDir}/cmake/arm-gcc.cmake",
+      "cacheVariables": {
+        "PROFILE": "fixed"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "bringup",
+      "configurePreset": "bringup"
+    },
+    {
+      "name": "sensors",
+      "configurePreset": "sensors"
+    },
+    {
+      "name": "wireless",
+      "configurePreset": "wireless"
+    },
+    {
+      "name": "adaptive",
+      "configurePreset": "adaptive"
+    },
+    {
+      "name": "fixed",
+      "configurePreset": "fixed"
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Setup tools",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "setup"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build bringup",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "build",
+        "bringup"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Flash bringup",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "flash",
+        "bringup"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build sensors",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "build",
+        "sensors"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Flash sensors",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "flash",
+        "sensors"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build wireless",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "build",
+        "wireless"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Flash wireless",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "flash",
+        "wireless"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build adaptive",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "build",
+        "adaptive"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Flash adaptive",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "flash",
+        "adaptive"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Build fixed",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "build",
+        "fixed"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Flash fixed",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/project.py",
+        "flash",
+        "fixed"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

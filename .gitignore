@@ -1,0 +1,6 @@
+/build/
+/logs/
+__pycache__/
+*.pyc
+.env
+.vscode/launch.json

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "checks": 4658,
+  "python_frame_matches_arm_c": true,
+  "scope": "Pure C logic only; no GPIO, RTC, ADC, I2C, RF or flash hardware emulation",
+  "unicorn_version": "2.1.4",
+  "frame_hex": "a55a01010700ffff40e201002efb3c0f1b0002070300565c"
+}
