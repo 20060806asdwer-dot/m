@@ -1,5 +1,16 @@
 # RailNode：STM32F103C8T6 工程使用说明
 
+<!-- railnode-quick-links -->
+## 快速入口
+
+- [下载完整工程 ZIP](https://github.com/20060806asdwer-dot/m/archive/refs/heads/main.zip)
+- [查看工程源码](https://github.com/20060806asdwer-dot/m/tree/main/firmware/Core)
+- [下载已编译固件](https://github.com/20060806asdwer-dot/m/tree/main/releases)
+- [3D模型文件（下载后用浏览器打开）](https://github.com/20060806asdwer-dot/m/blob/main/docs/3D动态结构模型.html)
+
+首次使用：下载ZIP → 解压 → VS Code打开含CMakeLists.txt的文件夹 → 按下方第3节配置与编译。
+<!-- /railnode-quick-links -->
+
 已按你的选择固定为**一开始推荐的 STM32F103C8T6 Blue Pill 蓝色最小系统板**，板载 LED 接 PC13，64 KiB Flash、20 KiB RAM。开发入口为 VS Code。该版没有 NUCLEO 或 L476 适配。
 
 本工程已包含应用代码、ST 官方 HAL、ARM 启动文件、链接脚本、构建与烧录脚本、VS Code 任务、上位机、CSV 分析工具与 DeepSeek 只读助手。**直接打开现有工程，不需要先生成或拼接代码。** 它是手工维护的 HAL/CMake 工程，没有 `.ioc`，不要用 CubeMX 直接覆盖。CubeMX 可在另一个目录学习引脚配置。
