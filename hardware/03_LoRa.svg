@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 1190 842">
+<title>03  LoRa采集端与电脑接收端</title>
+<rect width="100%" height="100%" fill="white"/>
+<rect x="20" y="20" width="1150" height="802" stroke="#ccd5df" fill="none" stroke-width="0.9"/>
+<text x="40" y="48" fill="#243448" font-size="19" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">03  LoRa采集端与电脑接收端</text>
+<text x="40" y="72" fill="#5b6878" font-size="10" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">U4/U5均为E22-400T22D串口模块；本图按逻辑脚名连接，不臆定不同模块版本的物理排针顺序。</text>
+<line x1="40" y1="87" x2="1150" y2="87" stroke="#ccd5df" stroke-width="0.8"/>
+<text x="40" y="789" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RailNode / STM32F103C8T6 Blue Pill / R0.1 / 2026-10-21</text>
+<text x="1150" y="789" fill="#5b6878" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">03 / 04   A3 横向</text>
+<text x="40" y="811" fill="#9a5715" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">原理图草案：逻辑引脚连接已与代码核对；未做EDA/ERC、PCB布线、实物与功耗验证。</text>
+<text x="50" y="123" fill="#243448" font-size="12" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">A  节点端：MCU控制模式和接收ACK</text>
+<text x="660" y="123" fill="#243448" font-size="12" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">B  电脑端：独立供电，正常接收模式</text>
+<line x1="610" y1="145" x2="610" y2="600" stroke="#ccd5df" stroke-width="0.7"/>
+<rect x="200" y="225" width="200" height="245" stroke="#123b70" fill="#fbfcff" stroke-width="0.9"/>
+<text x="300.0" y="248" fill="#123b70" font-size="11" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">U4</text>
+<text x="300.0" y="268" fill="#123b70" font-size="10" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">E22-400T22D</text>
+<line x1="165" y1="300" x2="200" y2="300" stroke="#197447" stroke-width="1.2"/>
+<text x="207" y="303" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RXD</text>
+<text x="159" y="295" fill="#197447" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_RX</text>
+<line x1="165" y1="335" x2="200" y2="335" stroke="#197447" stroke-width="1.2"/>
+<text x="207" y="338" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">TXD</text>
+<text x="159" y="330" fill="#197447" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_TX</text>
+<line x1="165" y1="375" x2="200" y2="375" stroke="#197447" stroke-width="1.2"/>
+<text x="207" y="378" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">M0</text>
+<text x="159" y="370" fill="#197447" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_M0</text>
+<line x1="165" y1="410" x2="200" y2="410" stroke="#197447" stroke-width="1.2"/>
+<text x="207" y="413" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">M1</text>
+<text x="159" y="405" fill="#197447" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_M1</text>
+<line x1="400" y1="335" x2="435" y2="335" stroke="#197447" stroke-width="1.2"/>
+<text x="393" y="338" fill="#123b70" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">AUX</text>
+<text x="441" y="330" fill="#197447" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_AUX</text>
+<line x1="300" y1="195" x2="300" y2="225" stroke="#197447" stroke-width="1.2"/>
+<text x="306" y="218" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">VCC</text>
+<text x="300" y="187" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_NODE</text>
+<line x1="300" y1="470" x2="300" y2="500" stroke="#197447" stroke-width="1.2"/>
+<text x="306" y="462" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND</text>
+<text x="300" y="516" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_NODE</text>
+<text x="90" y="161" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_NODE</text>
+<line x1="90" y1="170" x2="90" y2="188" stroke="#197447" stroke-width="1.2"/>
+<rect x="83" y="188" width="14" height="32" stroke="#123b70" fill="none" stroke-width="0.9"/>
+<line x1="90" y1="220" x2="90" y2="240" stroke="#197447" stroke-width="1.2"/>
+<text x="104" y="200" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">R4</text>
+<text x="104" y="215" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">100k</text>
+<text x="90" y="251" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_M0</text>
+<text x="485" y="161" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_NODE</text>
+<line x1="485" y1="170" x2="485" y2="188" stroke="#197447" stroke-width="1.2"/>
+<rect x="478" y="188" width="14" height="32" stroke="#123b70" fill="none" stroke-width="0.9"/>
+<line x1="485" y1="220" x2="485" y2="240" stroke="#197447" stroke-width="1.2"/>
+<text x="499" y="200" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">R5</text>
+<text x="499" y="215" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">100k</text>
+<text x="485" y="251" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RADIO_M1</text>
+<text x="80" y="511" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_NODE</text>
+<line x1="80" y1="523" x2="80" y2="546" stroke="#197447" stroke-width="1.2"/>
+<line x1="68" y1="546" x2="92" y2="546" stroke="#123b70" stroke-width="1.6"/>
+<line x1="68" y1="553" x2="92" y2="553" stroke="#123b70" stroke-width="1.6"/>
+<line x1="80" y1="553" x2="80" y2="581" stroke="#197447" stroke-width="1.2"/>
+<text x="97" y="547" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">C7</text>
+<text x="97" y="563" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">100nF / 10V</text>
+<line x1="80" y1="581" x2="80" y2="588" stroke="#197447" stroke-width="1.2"/>
+<line x1="70" y1="588" x2="90" y2="588" stroke="#197447" stroke-width="1.2"/>
+<line x1="74" y1="592" x2="86" y2="592" stroke="#197447" stroke-width="1.2"/>
+<line x1="78" y1="596" x2="82" y2="596" stroke="#197447" stroke-width="1.2"/>
+<text x="80" y="611" fill="#197447" font-size="8" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_NODE</text>
+<text x="400" y="511" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_NODE</text>
+<line x1="400" y1="523" x2="400" y2="546" stroke="#197447" stroke-width="1.2"/>
+<line x1="388" y1="546" x2="412" y2="546" stroke="#123b70" stroke-width="1.6"/>
+<line x1="388" y1="553" x2="412" y2="553" stroke="#123b70" stroke-width="1.6"/>
+<line x1="400" y1="553" x2="400" y2="581" stroke="#197447" stroke-width="1.2"/>
+<text x="417" y="547" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">C8</text>
+<text x="417" y="563" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">220uF / 10V</text>
+<text x="376" y="545" fill="#123b70" font-size="11" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">+</text>
+<line x1="400" y1="581" x2="400" y2="588" stroke="#197447" stroke-width="1.2"/>
+<line x1="390" y1="588" x2="410" y2="588" stroke="#197447" stroke-width="1.2"/>
+<line x1="394" y1="592" x2="406" y2="592" stroke="#197447" stroke-width="1.2"/>
+<line x1="398" y1="596" x2="402" y2="596" stroke="#197447" stroke-width="1.2"/>
+<text x="400" y="611" fill="#197447" font-size="8" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_NODE</text>
+<text x="440" y="391" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">AUX → PB10</text>
+<text x="440" y="412" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RXD ← PA9/TX</text>
+<text x="440" y="433" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">TXD → PA10/RX</text>
+<rect x="745" y="205" width="180" height="245" stroke="#123b70" fill="#fbfcff" stroke-width="0.9"/>
+<text x="835.0" y="228" fill="#123b70" font-size="11" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">U5</text>
+<text x="835.0" y="248" fill="#123b70" font-size="10" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">E22-400T22D</text>
+<line x1="835" y1="175" x2="835" y2="205" stroke="#197447" stroke-width="1.2"/>
+<text x="841" y="198" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">VCC</text>
+<text x="835" y="167" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_RX</text>
+<line x1="835" y1="450" x2="835" y2="480" stroke="#197447" stroke-width="1.2"/>
+<text x="841" y="442" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND</text>
+<text x="835" y="496" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_RX</text>
+<line x1="710" y1="285" x2="745" y2="285" stroke="#197447" stroke-width="1.2"/>
+<text x="752" y="288" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">M0</text>
+<text x="704" y="280" fill="#197447" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_RX</text>
+<line x1="710" y1="320" x2="745" y2="320" stroke="#197447" stroke-width="1.2"/>
+<text x="752" y="323" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">M1</text>
+<text x="704" y="315" fill="#197447" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_RX</text>
+<line x1="925" y1="305" x2="960" y2="305" stroke="#197447" stroke-width="1.2"/>
+<text x="918" y="308" fill="#123b70" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">TXD</text>
+<text x="966" y="300" fill="#197447" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RX_TO_PC</text>
+<line x1="925" y1="360" x2="960" y2="360" stroke="#197447" stroke-width="1.2"/>
+<text x="918" y="363" fill="#123b70" font-size="9" text-anchor="end" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RXD</text>
+<text x="966" y="355" fill="#197447" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">PC_TO_RX</text>
+<line x1="710" y1="390" x2="745" y2="390" stroke="#197447" stroke-width="1.2"/>
+<text x="752" y="393" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">AUX</text>
+<line x1="706" y1="386" x2="714" y2="394" stroke="#123b70" stroke-width="1.2"/>
+<line x1="706" y1="394" x2="714" y2="386" stroke="#123b70" stroke-width="1.2"/>
+<rect x="975" y="410" width="160" height="171" stroke="#ccd5df" fill="none" stroke-width="0.9"/>
+<text x="987" y="433" fill="#243448" font-size="11" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">J5  电脑USB-TTL</text>
+<text x="987" y="455" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">RXD ← RX_TO_PC</text>
+<text x="987" y="473" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">TXD → PC_TO_RX</text>
+<text x="987" y="491" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND ↔ GND_RX</text>
+<text x="987" y="509" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">VCC供电脚不接</text>
+<text x="987" y="527" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">ACK需要TXD这根线</text>
+<text x="987" y="545" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">电平必须3.3V</text>
+<text x="665" y="501" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_RX</text>
+<line x1="665" y1="520" x2="665" y2="543" stroke="#197447" stroke-width="1.2"/>
+<line x1="653" y1="543" x2="677" y2="543" stroke="#123b70" stroke-width="1.6"/>
+<line x1="653" y1="550" x2="677" y2="550" stroke="#123b70" stroke-width="1.6"/>
+<line x1="665" y1="550" x2="665" y2="578" stroke="#197447" stroke-width="1.2"/>
+<text x="682" y="544" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">C9</text>
+<text x="682" y="560" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">100nF / 10V</text>
+<line x1="665" y1="578" x2="665" y2="585" stroke="#197447" stroke-width="1.2"/>
+<line x1="655" y1="585" x2="675" y2="585" stroke="#197447" stroke-width="1.2"/>
+<line x1="659" y1="589" x2="671" y2="589" stroke="#197447" stroke-width="1.2"/>
+<line x1="663" y1="593" x2="667" y2="593" stroke="#197447" stroke-width="1.2"/>
+<text x="665" y="608" fill="#197447" font-size="8" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_RX</text>
+<text x="755" y="501" fill="#197447" font-size="9" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3V3_RX</text>
+<line x1="755" y1="520" x2="755" y2="543" stroke="#197447" stroke-width="1.2"/>
+<line x1="743" y1="543" x2="767" y2="543" stroke="#123b70" stroke-width="1.6"/>
+<line x1="743" y1="550" x2="767" y2="550" stroke="#123b70" stroke-width="1.6"/>
+<line x1="755" y1="550" x2="755" y2="578" stroke="#197447" stroke-width="1.2"/>
+<text x="772" y="544" fill="#123b70" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">C10</text>
+<text x="772" y="560" fill="#243448" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">220uF / 10V</text>
+<text x="731" y="542" fill="#123b70" font-size="11" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">+</text>
+<line x1="755" y1="578" x2="755" y2="585" stroke="#197447" stroke-width="1.2"/>
+<line x1="745" y1="585" x2="765" y2="585" stroke="#197447" stroke-width="1.2"/>
+<line x1="749" y1="589" x2="761" y2="589" stroke="#197447" stroke-width="1.2"/>
+<line x1="753" y1="593" x2="757" y2="593" stroke="#197447" stroke-width="1.2"/>
+<text x="755" y="608" fill="#197447" font-size="8" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">GND_RX</text>
+<rect x="970" y="151" width="165" height="105" stroke="#ccd5df" fill="none" stroke-width="0.9"/>
+<text x="982" y="174" fill="#243448" font-size="11" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">J4  接收端电源</text>
+<text x="982" y="196" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">3.3V稳压 / 独立限流</text>
+<text x="982" y="214" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">正极 → 3V3_RX</text>
+<text x="982" y="232" fill="#5b6878" font-size="9" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">负极 → GND_RX</text>
+<line x1="40" y1="648" x2="1150" y2="648" stroke="#ccd5df" stroke-width="0.8"/>
+<text x="44" y="664" fill="#9a5715" font-size="10" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="700">节点与接收端之间仅通过无线通信；GND_NODE与GND_RX不是要求用导线跨接的同一网络。</text>
+<text x="44" y="684" fill="#243448" font-size="10" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">R4/R5在上电、MCU尚未配置时将模式脚拉高；固件运行后由PB0/PB1控制。实际模式表按对应版本手册。</text>
+<text x="44" y="704" fill="#243448" font-size="10" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">C8/C10为无线近端储能去耦的调试起点，不代替超级电容；容量、ESR、稳压器稳定性和发射最低电压需实测。</text>
+<text x="44" y="724" fill="#243448" font-size="10" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">wireless_ack配置配合monitor.py --ack；普通wireless/fixed/adaptive不等待远端确认。双方参数须匹配。</text>
+<text x="44" y="744" fill="#243448" font-size="10" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-weight="400">电脑端TXD用于回传ACK；只接RXD能够收数但无法确认。先接好匹配天线，再上电测试。</text>
+</svg>

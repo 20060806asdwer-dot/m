@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RailNode 原理图 R0.1</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei UI",sans-serif;color:#243448;background:#edf1f5}header{padding:22px 26px;background:#fff;border-bottom:1px solid #d2dbe6}h1{font-size:23px;margin:0 0 10px}p{line-height:1.7;margin:8px 0;font-size:14px}.note{color:#945315}a{color:#125e8a}nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}button,.link{padding:8px 12px;border:1px solid #bccbd9;background:#fff;border-radius:5px;color:#243448;font:inherit;font-size:13px;cursor:pointer;text-decoration:none}button.active{background:#174a73;color:#fff;border-color:#174a73}main{padding:18px 24px}.toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;font-size:13px}.viewport{background:#fff;border:1px solid #c9d4df;overflow:auto;height:calc(100vh - 305px);min-height:460px}img{display:block;width:1190px;max-width:none;height:auto}footer{padding:0 26px 24px;font-size:12px;line-height:1.8;color:#52647a}input{accent-color:#174a73}@media(max-width:650px){header{padding:17px}h1{font-size:20px}main{padding:12px}.viewport{height:65vh;min-height:380px}footer{padding:0 17px 18px}}
+</style>
+<header><h1>电路原理图 R0.1 · 模块搭建版</h1>
+<p>四张图包含模块逻辑接口、阻容、网络名和供电选择。相同网络名跨页相连，元件和模块的实际脚序需核对。</p>
+<p class="note">取电、整流保护、超级电容充电和硬件欠压部分尚未定型；当前不是可直接生产的完整PCB工程。</p>
+<nav aria-label="选择图纸"><button class="active" data-sheet="0">01 主板与调试</button><button data-sheet="1">02 传感器与ADC</button><button data-sheet="2">03 LoRa收发</button><button data-sheet="3">04 电源与接口</button><a class="link" href="RailNode_Schematic_R01.pdf" target="_blank" rel="noopener">打开4页PDF</a><a class="link" href="BOM.csv" download>元件清单</a><a class="link" href="Connections.csv" download>引脚连接表</a></nav></header>
+<main><div class="toolbar"><label for="zoom">缩放</label><input id="zoom" type="range" min="50" max="180" value="100"><output id="scale">100%</output><button id="fit">适应宽度</button><a id="original" href="01_Controller.svg" target="_blank" rel="noopener">打开矢量原图</a><span id="caption">01 主板与调试</span></div><div class="viewport" id="viewport"><img id="sheet" src="01_Controller.svg" alt="主板与调试接口原理图"></div></main>
+<footer>图纸源文件为SVG，PDF用于打印；BOM和连接表为CSV。尚无KiCad/嘉立创EDA工程、ERC、PCB布线或Gerber。完整范围、厂家依据及待确认数据见 <a href="README.md">硬件说明</a>。生成脚本与场景数据在本目录，运行不修改固件。</footer>
+<script>
+'use strict';
+const files=['01_Controller.svg','02_Sensors_ADC.svg','03_LoRa.svg','04_Power_Interface.svg'];
+const names=['01 主板与调试','02 传感器与ADC','03 LoRa收发','04 电源与接口'];
+const buttons=[...document.querySelectorAll('[data-sheet]')],image=document.getElementById('sheet'),zoom=document.getElementById('zoom');
+function scale(){image.style.width=(1190*Number(zoom.value)/100)+'px';document.getElementById('scale').textContent=zoom.value+'%';}
+buttons.forEach((button,i)=>button.addEventListener('click',()=>{image.src=files[i];image.alt=names[i]+'原理图';document.getElementById('original').href=files[i];document.getElementById('caption').textContent=names[i];buttons.forEach(b=>b.classList.toggle('active',b===button));document.getElementById('viewport').scrollTo(0,0);}));
+zoom.addEventListener('input',scale);document.getElementById('fit').addEventListener('click',()=>{zoom.value=Math.max(50,Math.min(180,Math.floor(document.getElementById('viewport').clientWidth/1190*100)));scale();});
+scale();
+</script>
+</html>

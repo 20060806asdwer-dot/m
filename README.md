@@ -5,6 +5,7 @@
 
 - [中文代码阅读地图：每个文件做什么、从哪开始](docs/代码阅读地图.md)
 - [无硬件验收与实机待办](docs/无硬件验收与实机待办.md)
+- [电路原理图草案：PDF、SVG和连接表](hardware/README.md)
 - [下载完整工程 ZIP](https://github.com/20060806asdwer-dot/m/archive/refs/heads/main.zip)
 - [查看工程源码](https://github.com/20060806asdwer-dot/m/tree/main/firmware/Core)
 - [下载已编译固件](https://github.com/20060806asdwer-dot/m/tree/main/releases)
@@ -200,3 +201,5 @@ python tools/release.py
 ```
 
 第一条组合依赖校验、协议/电脑假串口/ARM假HAL测试和六配置编译；第二条更新预编译固件与源码校验记录。两条均不连接硬件、不调用DeepSeek。实机项目见[无硬件验收与实机待办](docs/无硬件验收与实机待办.md)。
+
+电路图已新增到[hardware](hardware/README.md)：四张模块搭建原理图、PDF、SVG、BOM与引脚连接表。数字接口已和固件核对；取电/整流保护/充电/硬件欠压仍未定型，不是可直接打板的完整EDA工程。
